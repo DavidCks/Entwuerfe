@@ -1,5 +1,5 @@
 <?
-class Dayset_Jalousie extends IPSModule {
+class Dayset_Jalousie_Entwurf extends IPSModule {
 
 	private $InstanceParentID;
 	private $dummyGUID;
@@ -231,19 +231,19 @@ if (\$IPS_SENDER == \"WebFront\")
 			//Create Einstellungen Folder
 			$cidEinstellungen = IPS_CreateCategory();
 			IPS_SetName($cidEinstellungen, "Einstellungen");
-			IPS_SetIdent($cidEinstellungen, "EinstellungenCat")
+			IPS_SetIdent($cidEinstellungen, "EinstellungenCat");
 			IPS_SetParent($cidEinstellungen, $this->InstanceParentID);
 			
 			//Create Werte Folder
 			$cidWerte = IPS_CreateCategory();
 			IPS_SetName($cidWerte, "Werte");
-			IPS_SetIdent($cidWerte, "WerteCat")
+			IPS_SetIdent($cidWerte, "WerteCat");
 			IPS_SetParent($cidWerte, $cidEinstellungen);
 			
 			//Create Tageszeiten Folder
 			$cidTageszeiten = IPS_CreateCategory();
 			IPS_SetName($cidWerte, "Tageszeiten");
-			IPS_SetIdent($cidWerte, "TageszeitenCat")
+			IPS_SetIdent($cidWerte, "TageszeitenCat");
 			IPS_SetParent($cidWerte, $cidEinstellungen);
 			
 			//Get Content of Table
