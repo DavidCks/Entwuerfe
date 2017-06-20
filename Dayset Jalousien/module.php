@@ -94,7 +94,7 @@ if (\$IPS_SENDER == \"WebFront\")
 			{
 				$o = IPS_GetObject($target);
 				$name = $parentName . $o['ObjectName'] . "onchange";
-				$ident = $parentName . $o['ObjectIdent'] . "onchange";
+				$ident = $o['ObjectIdent'] . "onchange";
 				$this->CreateEvent($name, $ident, $eventsParent, 0, 1, $target, "DSJal_refresh(" . $this->InstanceID . "," . $target . ");");
 			}
 		}
@@ -229,22 +229,31 @@ if (\$IPS_SENDER == \"WebFront\")
 			$this->CreateInstance($this->dummyGUID, "Automatik", "AutomatikIns", $this->InstanceParentID, 1);
 			
 			//Create Einstellungen Folder
-			$cidEinstellungen = IPS_CreateCategory();
-			IPS_SetName($cidEinstellungen, "Einstellungen");
-			IPS_SetIdent($cidEinstellungen, "EinstellungenCat");
-			IPS_SetParent($cidEinstellungen, $this->InstanceParentID);
-			
-			//Create Werte Folder
-			$cidWerte = IPS_CreateCategory();
-			IPS_SetName($cidWerte, "Werte");
-			IPS_SetIdent($cidWerte, "WerteCat");
-			IPS_SetParent($cidWerte, $cidEinstellungen);
-			
-			//Create Tageszeiten Folder
-			$cidTageszeiten = IPS_CreateCategory();
-			IPS_SetName($cidWerte, "Tageszeiten");
-			IPS_SetIdent($cidWerte, "TageszeitenCat");
-			IPS_SetParent($cidWerte, $cidEinstellungen);
+			if(@IPS_GetObjectIDByIdent("EinstellungenCat", $this->InstanceParentID) === false)
+			{
+				$cidEinstellungen = IPS_CreateCategory();
+				IPS_SetName($cidEinstellungen, "Einstellungen");
+				IPS_SetIdent($cidEinstellungen, "EinstellungenCat");
+				IPS_SetParent($cidEinstellungen, $this->InstanceParentID);
+				
+				//Create Werte Folder
+				$cidWerte = IPS_CreateCategory();
+				IPS_SetName($cidWerte, "Werte");
+				IPS_SetIdent($cidWerte, "WerteCat");
+				IPS_SetParent($cidWerte, $cidEinstellungen);
+				
+				//Create Tageszeiten Folder
+				$cidTageszeiten = IPS_CreateCategory();
+				IPS_SetName($cidTageszeiten, "Tageszeiten");
+				IPS_SetIdent($cidTageszeiten, "TageszeitenCat");
+				IPS_SetParent($cidTageszeiten, $cidEinstellungen);
+			}
+			else
+			{
+				$cidEinstellungen = IPS_GetObjectIDByIdent("EinstellungenCat", $this->InstanceParentID);
+				$cidWerte = IPS_GetObjectIDByIdent("WerteCat", $cidEinstellungen);
+				$cidTageszeiten = IPS_GetObjectIDByIdent("TageszeitenCat", $cidEinstellungen);
+			}
 			
 			//Get Content of Table
 			$dataJSON = $this->ReadPropertyString("Raeume");
@@ -334,7 +343,7 @@ if (\$IPS_SENDER == \"WebFront\")
 					$this->CreateVariable(1, $content->Raumname, "Nachtraum$id", $idNacht, $id + 1 + count($data) * 5 + 4, 0, "DSJal.Selector", "SetValue");
 				}
 				
-				//Create Events for
+				//Create Events for All Tageszeiten
 				foreach(IPS_GetChildrenIDs($insID) as $tageszeit)
 				{
 					$this->CreateEventForChildren($tageszeit, $EventCatID);
@@ -365,11 +374,12 @@ if (\$IPS_SENDER == \"WebFront\")
 					$cids = IPS_GetChildrenIDs($insID);
 					foreach($cids as $childID)
 					{
-						foreach($childID as $room)
+						$childrenIDs = IPS_GetChildrenIDs($childID);
+						foreach($childrenIDs as $room)
 						{
 							$raumIdent = IPS_GetObject($room)['ObjectIdent'];
 							if(strpos($raumIdent, $ident) !== false)
-								IPS_DeleteVariable($childID);
+								IPS_DeleteVariable($room);
 						}
 					}
 				}
