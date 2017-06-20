@@ -1,11 +1,11 @@
 {
     "id": "{6ffb4eba-1a8b-4f8f-bb89-d35671e2330d}",
-    "name": "Dayset Jalousie",
+    "name": "DaysetJalousie_Entwurf",
     "type": 3,
     "vendor": "prointernet",
     "aliases": 
     [
-        "Dayset_Jalousie_Entwurf"
+        "Dayset Jalousie"
     ],
     "parentRequirements": [],
     "childRequirements": [],

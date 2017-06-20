@@ -1,5 +1,5 @@
 <?
-class Dayset_Jalousie_Entwurf extends IPSModule {
+class DaysetJalousie_Entwurf extends IPSModule {
 
 	private $InstanceParentID;
 	private $dummyGUID;
