@@ -1,0 +1,14 @@
+{
+    "id": "{6ffb4eba-1a8b-4f8f-bb89-d35671e2330d}",
+    "name": "Dayset Jalousie",
+    "type": 3,
+    "vendor": "prointernet",
+    "aliases": 
+    [
+        "Dayset Jalousie"
+    ],
+    "parentRequirements": [],
+    "childRequirements": [],
+    "implemented": [],
+    "prefix": "DSJal"
+}
